@@ -8,7 +8,8 @@ Produces textual summaries and convergence diagnostics for an object created wit
 }
 \usage{
 \method{summary}{simmr_output}(object, 
-type = c("diagnostics", "quantiles", "statistics", "correlations"),...)
+type = c("diagnostics", "quantiles", "statistics", "correlations"),
+group = 1,...)
 }
 \arguments{
   \item{object}{
@@ -17,6 +18,9 @@ An object of class \code{simmr_output} produced by the function \code{\link{simm
   \item{type}{
 The type of output required. At least none of 'diagnostics', 'quantiles', 'statistics', or 'correlations'
 }
+  \item{group}{
+Which group or groups the output is required for.
+}
   \item{...}{
 Not used
 }
@@ -24,6 +28,8 @@ Not used
 }
 \details{
 The quantile output allows easy calculation of 95 per cent credible intervals of the posterior dietary proportions. The correlations, along with the matrix plot in \code{\link{plot.simmr_output}} allow the user to judge which sources are non-identifiable. The Gelman diagnostic values should be close to 1 to ensure satisfactor convergence.
+
+When multiple groups are included, the output automatically includes the results for all groups.
 }
 \value{
 An list containing the following components:
