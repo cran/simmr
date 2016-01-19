@@ -1,6 +1,6 @@
-compare_groups = function(simmr_out,source_name=simmr_out$source_names[1],groups=1:2,plot=TRUE) {
+compare_groups = function(simmr_out,source_name=simmr_out$input$source_names[1],groups=1:2,plot=TRUE) {
 
-# Function to compare groups both via textual output and with boxplots
+# Function to compare between groups both via textual output and with boxplots
 # Things to supply are:
 # If two groups are given: 
 #   - provide the probability of one group being bigger than the other
@@ -23,7 +23,7 @@ if(length(groups)==2) {
   out_all_grp_2 = do.call(rbind,simmr_out$output[[groups[2]]])[,source_name]
   # Produce the difference between the two
   out_diff = out_all_grp_1 - out_all_grp_2
-  cat(paste("Prob ( proportion of",source_name,'in group',groups[1],'> proportion of ',source_name,'in group',groups[2],') =',round(mean(out_diff>0),3)))
+  cat(paste("Prob ( proportion of",source_name,'in group',groups[1],'> proportion of',source_name,'in group',groups[2],') =',round(mean(out_diff>0),3)))
   
   if(plot) {
     # Stupid fix for packaging ggplot things
@@ -62,7 +62,11 @@ if(length(groups)>2) {
     Group = Proportion = NULL
     df = reshape2::melt(out_all)[,2:3]
     colnames(df) = c('Group','Proportion')
-    p = ggplot(df,aes(x=Group,y=Proportion,fill=Group)) + geom_boxplot(alpha=0.5,outlier.size=0) + theme_bw() + theme(legend.position='none') + ggtitle(paste("Comparison of dietary proportions for source",source_name))
+    p = ggplot(df,aes(x=Group,y=Proportion,fill=Group)) + 
+      scale_fill_viridis(discrete=TRUE) + 
+      geom_boxplot(alpha=0.5,outlier.size=0) + 
+      theme_bw() + theme(legend.position='none') + 
+      ggtitle(paste("Comparison of dietary proportions for source",source_name))
     print(p)
   }
   
