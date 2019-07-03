@@ -188,9 +188,13 @@ plot(simmr_out_combine,type='boxplot',title='simmr output: combined sources')
 simmr_groups_out_combine = combine_sources(simmr_groups_out,
                                            to_combine=c('U.lactuca','Enteromorpha'),
                                            new_source_name='U.Lac+Ent')
-plot(simmr_groups_out_combine$input,group=1:8)
+plot(simmr_groups_out_combine$input, group=1:8)
 plot(simmr_groups_out_combine,type='boxplot',title='simmr output: combined sources',group=8)
 plot(simmr_groups_out_combine,type='matrix',title='simmr output: combined sources',group=8)
+
+# And we can now compare sources across groups on this new data set
+compare_groups(simmr_groups_out_combine, source = 'U.Lac+Ent', 
+                group = 1:3)
 
 ## ------------------------------------------------------------------------
 mix = matrix(c(-10.13, -10.72, -11.39, -11.18, -10.81, -10.7, -10.54, 

@@ -58,11 +58,17 @@
 #' # MCMC run
 #' simmr_out = simmr_mcmc(simmr_in)
 #' 
-#' # Summary
-#' summary(simmr_out)
+#' # Check convergence - values should all be close to 1
+#' summary(simmr_out, type = 'diagnostics')
 #' 
-#' # Plot
-#' plot(simmr_out)
+#' # Look at output
+#' summary(simmr_out, type = 'statistics')
+#' 
+#' # Look at influence of priors
+#' prior_viz(simmr_out)
+#' 
+#' # Plot output
+#' plot(simmr_out, type = 'histogram')
 #' }
 NULL
 

@@ -62,8 +62,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#' ## Example of estimating TDFs for a simple system with known dietary 
-#' proportions
+#' ## Example of estimating TDFs for a simple system with known dietary proportions
 #' 
 #' # Data set 1: 10 obs on 2 isos, 4 sources, with tefs and concdep
 #' # Assume p = c(0.25, 0.25, 0.25, 0.25)

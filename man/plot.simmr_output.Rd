@@ -17,7 +17,7 @@
 \item{type}{The type of plot required. Can be one or more of 'histogram',
 'density', 'matrix', or 'boxplot'}
 
-\item{group}{Which group to plot. Currently only one group allowed at a time}
+\item{group}{Which group(s) to plot.}
 
 \item{binwidth}{The width of the bins for the histogram. Defaults to 0.05}
 

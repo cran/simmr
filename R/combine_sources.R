@@ -151,10 +151,10 @@ combine_sources.simmr_output = function(simmr_out,
     simmr_new_out$output[[j]] = simmr_out$output[[j]]
     # Change sims.list and sims.matrix
     # First sims.matrix
-    sims.matrix = simmr_out$output[[1]]$BUGSoutput$sims.matrix
-    new_sims.matrix = sims.matrix[,-to_combine_cols[2]+1]
-    new_sims.matrix[,to_combine_cols[1]+1] = sims.matrix[,to_combine_cols[2]+1] + sims.matrix[,to_combine_cols[2]+1]
-    colnames(new_sims.matrix)[to_combine_cols[1]+1] = paste0('p[',new_source_name,']')
+    sims.matrix = simmr_out$output[[j]]$BUGSoutput$sims.matrix
+    new_sims.matrix = sims.matrix[,-(to_combine_cols[2]+1)]
+    new_sims.matrix[,to_combine_cols[1]+1] = sims.matrix[,to_combine_cols[1]+1] + sims.matrix[,to_combine_cols[2]+1]
+    colnames(new_sims.matrix)[to_combine_cols[1]+1] = new_source_name
     simmr_new_out$output[[j]]$BUGSoutput$sims.matrix = new_sims.matrix
     # Now sims.list
     sims.list = simmr_out$output[[1]]$BUGSoutput$sims.list
