@@ -180,6 +180,6 @@ function(x,
     }
 
   }
-
+  if(exists('g')) invisible(g)
 
 }

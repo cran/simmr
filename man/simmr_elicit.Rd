@@ -4,8 +4,12 @@
 \alias{simmr_elicit}
 \title{Function to allow informative prior distribution to be included in simmr}
 \usage{
-simmr_elicit(n_sources, proportion_means = rep(1/n_sources, n_sources),
-  proportion_sds = rep(0.1, n_sources), n_sims = 1000)
+simmr_elicit(
+  n_sources,
+  proportion_means = rep(1/n_sources, n_sources),
+  proportion_sds = rep(0.1, n_sources),
+  n_sims = 1000
+)
 }
 \arguments{
 \item{n_sources}{The number of sources required}
@@ -79,6 +83,9 @@ simmr_1 = simmr_load(mixtures=mix,
 # MCMC run
 simmr_1_out = simmr_mcmc(simmr_1)
 
+# Look at the prior influence
+prior_viz(simmr_1_out)
+
 # Summary
 summary(simmr_1_out,'quantiles')
 # A bit vague:
@@ -94,6 +101,9 @@ summary(simmr_1_out,'quantiles')
 prior = simmr_elicit(4, c(0.5,0.2,0.2,0.1), c(0.08,0.02,0.01,0.02))
 
 simmr_1a_out = simmr_mcmc(simmr_1,prior_control=list(means=prior$mean,sd=prior$sd))
+
+#' # Look at the prior influence now
+prior_viz(simmr_1a_out)
 
 summary(simmr_1a_out,'quantiles')
 # Much more precise:

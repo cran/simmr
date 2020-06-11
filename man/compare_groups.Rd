@@ -4,8 +4,12 @@
 \alias{compare_groups}
 \title{Compare dietary proportions for a single source across different groups}
 \usage{
-compare_groups(simmr_out, source_name = simmr_out$input$source_names[1],
-  groups = 1:2, plot = TRUE)
+compare_groups(
+  simmr_out,
+  source_name = simmr_out$input$source_names[1],
+  groups = 1:2,
+  plot = TRUE
+)
 }
 \arguments{
 \item{simmr_out}{An object of class \code{simmr_output} created from
@@ -136,8 +140,8 @@ simmr_in = simmr_load(mixtures=mix,
 simmr_in
 
 # Plot
-plot(simmr_in,group=1:8,xlab=expression(paste(delta^13, "C (\\u2030)",sep="")), 
-     ylab=expression(paste(delta^15, "N (\\u2030)",sep="")), 
+plot(simmr_in,group=1:8,xlab=expression(paste(delta^13, "C (\u2030)",sep="")), 
+     ylab=expression(paste(delta^15, "N (\u2030)",sep="")), 
      title='Isospace plot of Inger et al Geese data')
 
 # Run MCMC for each group

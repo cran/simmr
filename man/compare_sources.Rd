@@ -4,8 +4,12 @@
 \alias{compare_sources}
 \title{Compare dietary proportions between multiple sources}
 \usage{
-compare_sources(simmr_out, source_names = simmr_out$input$source_names,
-  group = 1, plot = TRUE)
+compare_sources(
+  simmr_out,
+  source_names = simmr_out$input$source_names,
+  group = 1,
+  plot = TRUE
+)
 }
 \arguments{
 \item{simmr_out}{An object of class \code{simmr_output} created from

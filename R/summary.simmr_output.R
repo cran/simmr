@@ -88,12 +88,12 @@ summary.simmr_output =
     names(out_quantiles) = paste0('group_',group)
     names(out_statistics) = paste0('group_',group)
     names(out_cor) = paste0('group_',group)
-    
+
     # Loop through groups
     for(i in 1:length(group)) {
       
       cat(paste("\nSummary for",group_names[group[i]],'\n'))
-      out_all = object$output[[i]]$BUGSoutput$sims.matrix
+      out_all = object$output[[group[i]]]$BUGSoutput$sims.matrix
 
       # Get objects
       out_bgr[[i]] = object$output[[i]]$BUGSoutput$summary[,'Rhat']

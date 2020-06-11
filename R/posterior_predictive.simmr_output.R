@@ -78,6 +78,24 @@ output = R2jags::jags(data=simmr_out$output[[group]]$model$data(),
 
 y_post_pred = output$BUGSoutput$sims.list$y_pred
 
+# Make is look nicer
+low_prob = 0.5 - prob/2
+high_prob = 0.5 + prob/2
+y_post_pred_ci = apply(y_post_pred, 
+                       2:3, 
+                       'quantile', 
+                       prob = c(low_prob, high_prob))
+y_post_pred_out = data.frame(
+  interval = matrix(y_post_pred_ci, 
+                    ncol = simmr_out$input$n_tracers,
+                    byrow = TRUE),
+  data = as.vector(simmr_out$input$mixtures[simmr_out$input$group_int == group,])
+)
+
+y_post_pred_out$outside = y_post_pred_out[,3] > y_post_pred_out[,2] | 
+  y_post_pred_out[,3] < y_post_pred_out[,1]
+prop_outside = mean(y_post_pred_out$outside)
+
 if(plot_ppc) {
   y_rep = y_post_pred
   dim(y_rep) = c(dim(y_post_pred)[1], dim(y_post_pred)[2]*dim(y_post_pred)[3])
@@ -89,10 +107,15 @@ if(plot_ppc) {
     x = rep(1:nrow(curr_mix), simmr_out$input$n_tracers),
     prob = prob,
     fatten = 1
-  )+ ggplot2::ylab("Tracer value") + ggplot2::xlab('Observation') + ggplot2::theme_bw() + ggplot2::scale_x_continuous(breaks = 1:simmr_out$input$n_obs)
+  ) + ggplot2::ylab("Tracer value") + 
+    ggplot2::xlab('Observation') + 
+    ggplot2::ggtitle(paste0(prob*100, '% posterior predictive')) + 
+    ggplot2::theme_bw() + 
+    ggplot2::scale_x_continuous(breaks = 1:simmr_out$input$n_obs)
   print(g)
 }
 # Return the simulations
-invisible(y_post_pred)
+invisible(list(table = y_post_pred_out, 
+               prop_outside = prop_outside))
 
 }
