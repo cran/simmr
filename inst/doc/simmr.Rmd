@@ -27,13 +27,13 @@ tl;dr see the [Quick Start](https://cran.r-project.org/package=simmr/vignettes/q
 
 We assume that you have a sound working knowledge of stable isotopic mixing models, and the assumptions and potential pitfalls associated with these models. A list of required reading is presented in Appendix A of this guide. We strongly recommend reading Philips et al 2015, Canadian Journal of Zoology for the basic assumptions and dos and don'ts of running mixing models.
 
-We assume that if you have got this far you have [installed R](https://www.r-project.org). We also recommend installing [Rstudio](https://www.rstudio.com) as this provides a very neat interface to use R and `simmr`. The instructions below all assume you are using Rstudio.
+We assume that if you have got this far you have [installed R](https://www.r-project.org). We also recommend installing [Rstudio](https://rstudio.com) as this provides a very neat interface to use R and `simmr`. The instructions below all assume you are using Rstudio.
 
 If you find bugs in the software, or wish to suggest new features, please add your input to the `simmr` [GitHub page](https://github.com/andrewcparnell/simmr/issues).
 
 ## Installation of the `simmr` package
 
-The `simmr` package uses the JAGS (Just Another Gibbs Sampler) programmer to run the stable isotope mixing model. Before you install simmr, visit the [JAGS](http://mcmc-jags.sourceforge.net) website and download and install JAGS for your operating system. 
+The `simmr` package uses the JAGS (Just Another Gibbs Sampler) programmer to run the stable isotope mixing model. Before you install simmr, visit the [JAGS](https://sourceforge.net/projects/mcmc-jags/) website and download and install JAGS for your operating system. 
 
 Next, start Rstudio and find the window with the command prompt (the symbol `>`). Type
 
@@ -82,7 +82,7 @@ For the next part of this document, we concentrate on simple examples without gr
 
 ### Step 1: Getting the data into simmr
 
-`simmr` requires at minimum 3 input objects; the consumers or _mixtures_, the _source means_, and the _source standard deviations_. Optionally, you can also add correction data (also called trophic enrichment factors, TEFs) represented again as means and standard deviations, and concentration dependence values. The easiest way to get these objects into `simmr` is to create an Excel or similar file creating data and then copying it across as in the following example:
+`simmr` requires at minimum 3 input objects; the consumers or _mixtures_, the _source means_, and the _source standard deviations_. Optionally, you can also add correction data (also called trophic enrichment factors, TEFs) represented again as means and standard deviations, and concentration dependence values. The easiest way to get data into simmr is to create an Excel file, as shown in the included `vignette('quick_start)` guide. Alternatively you can copy and past your data, comma separated, as below:
 
 ```{r}
 mix = matrix(c(-10.13, -10.72, -11.39, -11.18, -10.81, -10.7, -10.54, 
@@ -245,15 +245,14 @@ data(geese_data)
 
 ```{r}
 simmr_groups = with(geese_data, 
-                    simmr_load(mixtures = mixtures[,1:2],
+                    simmr_load(mixtures = mixtures,
                                source_names = source_names,
                                source_means = source_means,
                                source_sds = source_sds,
                                correction_means = correction_means,
                                correction_sds = correction_sds,
                                concentration_means = concentration_means,
-                               group = as.factor(paste('period', 
-                                                     mixtures[,3]))))
+                               group = groups))
 ```
 
 
@@ -524,6 +523,53 @@ simmr_tdf_2 = simmr_load(mixtures = mix,
                          correction_sds = simmr_tdf_out$c_sd_est,
                          concentration_means = conc)
 plot(simmr_tdf_2)
+```
+
+## Customising plots
+
+Many of the plots in `simmr` can be customised by adding on extra options just like a standard `ggplot`. For example:
+
+```{r,fig.align = 'center',fig.width = 7,fig.height = 5}
+plot(simmr_in) + xlim(-100, 100) + ylim(-100, 100)
+```
+
+or even on the output:
+
+```{r,fig.align = 'center',fig.width = 7,fig.height = 5}
+plot(simmr_groups_out,
+     type = 'boxplot',
+     group = 2,
+     title = 'simmr output group 2') + 
+  ylim(0, 0.5)
+```
+
+Note that the above actually changes the x-axis and not the x-axis despite the above command. This is because the coordinates are flipped in the ggplot. 
+
+Other options you might like to customise include labels on axes, titles/subtitles, etc. More complicated changes can be made but these involve changing the ggplot commands that simmr uses in the background.
+
+Here is an example where I change the colours of the boxplots:
+
+```{r}
+# First extract the dietary proportions
+simmr_out2 = simmr_out$output[[1]]$BUGSoutput$sims.list$p
+colnames(simmr_out2) = simmr_out$input$source_names
+
+# Now turn into a proper data frame
+df = reshape2::melt(simmr_out2)
+colnames(df) = c('Num','Source','Proportion')
+
+# Finally create the new variable that you want to colour by
+df$new_colour = 'Type 2'
+df$new_colour[df$Source == 'Zostera'] = 'Type 1'
+
+# And create the plot
+ggplot(df,aes_string(y="Proportion",x="Source",
+                     fill="new_colour",alpha=0,5)) +
+  geom_boxplot(notch=TRUE,outlier.size=0) +
+  theme_bw() +
+  ggtitle('simmr output boxplot with changed colours') +
+  theme(legend.position='none') +
+  coord_flip()
 ```
 
 ## Other advanced use of simmr

@@ -77,15 +77,14 @@ data(geese_data)
 
 ## -----------------------------------------------------------------------------
 simmr_groups = with(geese_data, 
-                    simmr_load(mixtures = mixtures[,1:2],
+                    simmr_load(mixtures = mixtures,
                                source_names = source_names,
                                source_means = source_means,
                                source_sds = source_sds,
                                correction_means = correction_means,
                                correction_sds = correction_sds,
                                concentration_means = concentration_means,
-                               group = as.factor(paste('period', 
-                                                     mixtures[,3]))))
+                               group = groups))
 
 ## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
 plot(simmr_groups,
@@ -253,6 +252,38 @@ simmr_tdf_2 = simmr_load(mixtures = mix,
                          correction_sds = simmr_tdf_out$c_sd_est,
                          concentration_means = conc)
 plot(simmr_tdf_2)
+
+## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
+plot(simmr_in) + xlim(-100, 100) + ylim(-100, 100)
+
+## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
+plot(simmr_groups_out,
+     type = 'boxplot',
+     group = 2,
+     title = 'simmr output group 2') + 
+  ylim(0, 0.5)
+
+## -----------------------------------------------------------------------------
+# First extract the dietary proportions
+simmr_out2 = simmr_out$output[[1]]$BUGSoutput$sims.list$p
+colnames(simmr_out2) = simmr_out$input$source_names
+
+# Now turn into a proper data frame
+df = reshape2::melt(simmr_out2)
+colnames(df) = c('Num','Source','Proportion')
+
+# Finally create the new variable that you want to colour by
+df$new_colour = 'Type 2'
+df$new_colour[df$Source == 'Zostera'] = 'Type 1'
+
+# And create the plot
+ggplot(df,aes_string(y="Proportion",x="Source",
+                     fill="new_colour",alpha=0,5)) +
+  geom_boxplot(notch=TRUE,outlier.size=0) +
+  theme_bw() +
+  ggtitle('simmr output boxplot with changed colours') +
+  theme(legend.position='none') +
+  coord_flip()
 
 ## ----eval = FALSE-------------------------------------------------------------
 #  str(simmr_in)
