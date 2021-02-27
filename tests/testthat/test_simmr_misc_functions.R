@@ -52,6 +52,8 @@ test_that("prior viz for multiple groups", {
   # Change some options
   p4 <- prior_viz(simmr_2_out, group = 2, plot = TRUE, include_posterior = FALSE, n_sims = 10)
   expect_true(is.matrix(p4))
+  expect_error(prior_viz(simmr_2_out, group = 1.5, n_sims = 10))
+  expect_error(prior_viz(simmr_2_out, group = 12, n_sims = 10))
 })
 
 test_that("posterior predictive for 1 groups", {
@@ -95,6 +97,18 @@ test_that("simmr elicit function", {
     n_sources = 4,
     proportion_means = c(0.5, 0.2, 0.2, 0.1),
     proportion_sds = c(1, 1, 1, 0.02),
+    n_sims = 10
+  ))
+  expect_error(simmr_elicit(
+    n_sources = 4,
+    proportion_means = c(-0.5, 0.2, 0.2, 0.1),
+    proportion_sds = c(1, 1, 1, 0.02),
+    n_sims = 10
+  ))
+  expect_error(simmr_elicit(
+    n_sources = 4,
+    proportion_means = c(0.5, 0.2, 0.2, 0.1),
+    proportion_sds = c(1, 1.5, 1, 0.02),
     n_sims = 10
   ))
 })

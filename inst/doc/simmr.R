@@ -45,11 +45,11 @@ simmr_out = simmr_mcmc(simmr_in)
 ## -----------------------------------------------------------------------------
 summary(simmr_out, type = 'diagnostics')
 
-## ----results = 'hide'---------------------------------------------------------
+## ----results = 'hide',fig.align = 'center',fig.width = 7,fig.height = 5-------
 post_pred = posterior_predictive(simmr_out)
 print(post_pred)
 
-## ----results = 'hide'---------------------------------------------------------
+## ----results = 'hide', fig.align = 'center',fig.width = 7,fig.height = 5------
 prior_viz(simmr_out)
 
 ## -----------------------------------------------------------------------------

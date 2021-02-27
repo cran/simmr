@@ -1,8 +1,8 @@
 Package: simmr
 Type: Package
 Title: A Stable Isotope Mixing Model
-Version: 0.4.4
-Date: 2021-01-20
+Version: 0.4.5
+Date: 2021-02-28
 Author: Andrew Parnell
 URL: https://github.com/andrewcparnell/simmr,
         https://andrewcparnell.github.io/simmr/
@@ -19,7 +19,7 @@ LazyData: TRUE
 Suggests: knitr, rmarkdown, readxl, testthat, covr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2021-01-20 13:38:52 UTC; andrewparnell
+Packaged: 2021-02-27 13:40:03 UTC; andrewparnell
 RoxygenNote: 7.1.1
 Repository: CRAN
-Date/Publication: 2021-01-20 14:30:02 UTC
+Date/Publication: 2021-02-27 14:00:03 UTC

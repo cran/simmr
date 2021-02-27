@@ -1,3 +1,10 @@
+# simmr 0.4.5
+
+  - Updated new checkmate error checking for multiple functions
+  - Added new tests for 90%+ code coverage
+  - Fixed a bug that stopped some plots being outputted correctly
+  - Fixed some broken examples
+
 # simmr 0.4.4
 
   - Updated the simmr_elicit function to provide a more explicit warning for bad input objects

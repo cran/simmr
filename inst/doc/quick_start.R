@@ -34,7 +34,7 @@ geese_simmr = simmr_load(mixtures = as.matrix(targets[, 1:2]),
                          concentration_means = as.matrix(concdep[,2:3]),
                          group = as.factor(paste('Day', targets$Time)))
 
-## ---- fig.width = 8, fig.height = 8-------------------------------------------
+## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(geese_simmr, group = 1:8)
 
 ## ---- results = 'hide', message = FALSE---------------------------------------
@@ -42,16 +42,16 @@ geese_simmr_out = simmr_mcmc(geese_simmr)
 summary(geese_simmr_out, type = 'diagnostics',
         group = 1)
 
-## -----------------------------------------------------------------------------
+## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 posterior_predictive(geese_simmr_out, group = 5)
 
-## -----------------------------------------------------------------------------
+## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 prior_viz(geese_simmr_out)
 
-## -----------------------------------------------------------------------------
+## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(geese_simmr_out, type = 'histogram')
 
-## ---- fig.width = 8, fig.height = 8-------------------------------------------
+## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 compare_groups(geese_simmr_out, groups = 1:4, 
                source_name = 'Enteromorpha')
 

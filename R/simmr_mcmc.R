@@ -91,7 +91,7 @@
 #' plot(simmr_1_out, type = "matrix")
 #'
 #' # Compare two sources
-#' compare_sources(simmr_1_out, source_names = c("Source A", "Source D"))
+#' compare_sources(simmr_1_out, source_names = c("Zostera", "Enteromorpha"))
 #'
 #' # Compare multiple sources
 #' compare_sources(simmr_1_out)
@@ -302,8 +302,6 @@ simmr_mcmc.simmr_input <- function(simmr_in,
                                      n.chain = 4
                                    )) {
 
-  # Main function to run simmr through JAGS
-  # if(class(simmr_in)!='simmr_input') stop("Input argument simmr_in must have come from simmr_load")
 
   # Throw warning if n.chain =1
   if (mcmc_control$n.chain == 1) warning("Running only 1 MCMC chain will cause an error in the convergence diagnostics")
