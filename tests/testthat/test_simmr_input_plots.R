@@ -1,4 +1,5 @@
-context("Plot input data")
+set.seed(123)
+co <- function(expr) capture.output(expr, file = NULL)
 
 data("geese_data_day1")
 simmr_1 <- with(
@@ -15,9 +16,12 @@ simmr_1 <- with(
 )
 
 test_that("basic simmr_input plot", {
-  expect_s3_class(plot(simmr_1), "ggplot")
-  expect_s3_class(plot(simmr_1, colour = FALSE), "ggplot")
-  expect_s3_class(plot(simmr_1, tracers = c(2, 1)), "ggplot")
+  p <- plot(simmr_1)
+  vdiffr::expect_doppelganger("simmr_input", p)
+  p <- plot(simmr_1, colour = FALSE)
+  vdiffr::expect_doppelganger("simmr_input_no_col", p)
+  p <- plot(simmr_1, tracers = c(2, 1))
+  vdiffr::expect_doppelganger("simmr_input_rev_tracers", p)
 })
 
 test_that("1D simmr plot", {
@@ -34,10 +38,10 @@ test_that("1D simmr plot", {
     )
   )
 
-
-  # Plot 3 times - first default d13C vs d15N
-  expect_s3_class(plot(simmr_2), "ggplot")
-  expect_s3_class(plot(simmr_2, colour = FALSE), "ggplot")
+  p <- plot(simmr_2)
+  vdiffr::expect_doppelganger("simmr_input_1obs", p)
+  p <- plot(simmr_2, colour = FALSE)
+  vdiffr::expect_doppelganger("simmr_input_1obs_nocol", p)
 })
 
 test_that("Multi-groups plot", {
@@ -56,8 +60,10 @@ test_that("Multi-groups plot", {
     )
   )
 
-  expect_s3_class(plot(simmr_4), "ggplot")
-  expect_s3_class(plot(simmr_4, group = 5), "ggplot")
+  p <- plot(simmr_4)
+  vdiffr::expect_doppelganger("simmr_input_groups", p)
+  p <- plot(simmr_4, group = 5)
+  vdiffr::expect_doppelganger("simmr_input_groups_specified", p)
 })
 
 test_that("Single iso plot", {
@@ -76,7 +82,10 @@ test_that("Single iso plot", {
     )
   )
 
-  expect_s3_class(plot(simmr_5), "ggplot")
-  expect_s3_class(plot(simmr_5, group = 5), "ggplot")
-  expect_s3_class(plot(simmr_5, group = 5, colour = FALSE), "ggplot")
+  p <- plot(simmr_5)
+  vdiffr::expect_doppelganger("simmr_input_iso1", p)
+  p <- plot(simmr_5, group = 5)
+  vdiffr::expect_doppelganger("simmr_input_iso1_group5", p)
+  p <- plot(simmr_5, group = 5, colour = FALSE)
+  vdiffr::expect_doppelganger("simmr_input_iso1_group5_nocol", p)
 })

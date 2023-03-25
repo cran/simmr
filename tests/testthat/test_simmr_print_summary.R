@@ -1,6 +1,6 @@
-context("simmr print and summary")
-
-library(simmr)
+set.seed(123)
+library(vdiffr)
+co <- function(expr) capture.output(expr, file = NULL)
 
 data(geese_data_day1)
 
@@ -18,27 +18,52 @@ simmr_1 <- with(
   )
 )
 # MCMC run
-simmr_1_out <- simmr_mcmc(simmr_1,
+co(simmr_1_out <- simmr_mcmc(simmr_1,
   mcmc_control = list(
     iter = 100,
     burn = 10,
     thin = 1,
     n.chain = 2
   )
-)
+))
+
+# FFVB run
+co(simmr_1_out_ffvb <- simmr_ffvb(simmr_1,
+  ffvb_control = list(
+    n_output = 3600,
+    S = 100,
+    P = 1,
+    beta_1 = 0.9,
+    beta_2 = 0.9,
+    tau = 1000,
+    eps_0 = 0.1,
+    t_W = 1
+  )
+))
 
 # Taken from the simmr_mcmc example
 test_that("print.simmr_input", {
   expect_output(print(simmr_1))
 })
 
+
+
 test_that("print.simmr_output", {
   expect_output(print(simmr_1_out))
+})
+
+test_that("print.simmr_output", {
+  expect_output(print(simmr_1_out_ffvb))
 })
 
 test_that("summary.simmr_output", {
   expect_output(summary(simmr_1_out, type = "diagnostics"))
   expect_output(summary(simmr_1_out))
+})
+
+test_that("summary.simmr_output", {
+  expect_output(summary(simmr_1_out_ffvb))
+  expect_output(summary(simmr_1_out_ffvb))
 })
 
 
@@ -58,14 +83,14 @@ simmr_groups <- with(
     group = groups
   )
 )
-simmr_groups_out <- simmr_mcmc(simmr_groups,
+co(simmr_groups_out <- simmr_mcmc(simmr_groups,
   mcmc_control = list(
     iter = 100,
     burn = 10,
     thin = 1,
     n.chain = 2
   )
-)
+))
 # Taken from the simmr_mcmc example
 test_that("print.simmr_input", {
   expect_output(print(simmr_groups))
@@ -83,7 +108,7 @@ test_that("summary.simmr_output", {
 test_that("summary.simmr_output groups ", {
   expect_output(summary(simmr_groups_out, type = "statistics", group = 1))
   expect_output(summary(simmr_groups_out, type = "statistics", group = c(1, 3)))
-  summ_1 <- summary(simmr_groups_out, type = "statistics", group = 1)
-  summ_2 <- summary(simmr_groups_out, type = "statistics", group = 2)
+  co(summ_1 <- summary(simmr_groups_out, type = "statistics", group = 1))
+  co(summ_2 <- summary(simmr_groups_out, type = "statistics", group = 2))
   expect_false(summ_1$statistics[[1]][1, 1] == summ_2$statistics[[1]][1, 1])
 })

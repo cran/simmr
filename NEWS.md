@@ -1,3 +1,18 @@
+# simmr 0.5.0
+
+  - Implemented new Fixed Form Variational Bayes method for fitting SIMMs (publication forthcoming)
+  - Added new GGally matrix plots
+
+# simmr 0.4.6
+
+  - Implemented vdiffr for better checking of output plots
+  - Added capture.output to remove verbose testing
+  - Added feature to allow for >2 sources to combined in combine_sources
+  - Added ability to use data in matrix, data frame, or tibble format without error
+  - Changed the way prior_viz object is plotted and returned to allow for greater customisation
+  - Improved test that to test for bad source mean and sd shapes
+  - Added a new vignette on advanced plotting (and moved other parts out of main vignette)
+
 # simmr 0.4.5
 
   - Updated new checkmate error checking for multiple functions
