@@ -46,18 +46,6 @@ via \code{\link{summary.simmr_output}} and \code{\link{plot.simmr_output}}.
 
 # Data set 1: 10 obs on 2 isos, 4 sources, with tefs and concdep
 data(geese_data_day1)
-simmr_1 <- with(
-  geese_data_day1,
-  simmr_load(
-    mixtures = mixtures,
-    source_names = source_names,
-    source_means = source_means,
-    source_sds = source_sds,
-    correction_means = correction_means,
-    correction_sds = correction_sds,
-    concentration_means = concentration_means
-  )
-)
 
 # Plot
 plot(simmr_1)
@@ -215,17 +203,19 @@ plot(simmr_4_out, type = "matrix") # Look at the massive correlations here
 
 # Do this in raw data format - Note that there's quite a few mixtures!
 data(geese_data)
-#  geese_data,
-#  simmr_load(
-#    mixtures = mixtures,
-#    source_names = source_names,
-#    source_means = source_means,
-#    source_sds = source_sds,
-#    correction_means = correction_means,
-#    correction_sds = correction_sds,
-#    concentration_means = concentration_means,
-#    group = groups
-#  )
+simmr_5 <- with(
+  geese_data,
+  simmr_load(
+    mixtures = mixtures,
+    source_names = source_names,
+    source_means = source_means,
+    source_sds = source_sds,
+    correction_means = correction_means,
+    correction_sds = correction_sds,
+    concentration_means = concentration_means,
+    group = groups
+  )
+)
 
 # Plot
 plot(simmr_5,
@@ -235,7 +225,7 @@ plot(simmr_5,
 )
 
 # Run MCMC for each group
-simmr_5_out <- simmr_mcmc(simmr_5)
+simmr_5_out <- simmr_ffvb(simmr_5)
 
 # Summarise output
 summary(simmr_5_out, type = "quantiles", group = 1)
