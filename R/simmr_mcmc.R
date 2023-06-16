@@ -53,18 +53,18 @@
 #'
 #' # Data set 1: 10 obs on 2 isos, 4 sources, with tefs and concdep
 #' data(geese_data_day1)
-# simmr_1 <- with(
-#   geese_data_day1,
-#   simmr_load(
-#     mixtures = mixtures,
-#     source_names = source_names,
-#     source_means = source_means,
-#     source_sds = source_sds,
-#     correction_means = correction_means,
-#     correction_sds = correction_sds,
-#     concentration_means = concentration_means
-#   )
-# )
+#' simmr_1 <- with(
+#'   geese_data_day1,
+#'   simmr_load(
+#'     mixtures = mixtures,
+#'     source_names = source_names,
+#'     source_means = source_means,
+#'     source_sds = source_sds,
+#'     correction_means = correction_means,
+#'     correction_sds = correction_sds,
+#'     concentration_means = concentration_means
+#'   )
+#' )
 #'
 #' # Plot
 #' plot(simmr_1)
@@ -181,47 +181,6 @@
 #'
 #' #####################################################################################
 #'
-#' # Data set 4 - identified by Fry (2014) as a failing of SIMMs
-#' # See the vignette for more interpreation of these data and the output
-#'
-#' # The data
-#' data(square_data)
-#' simmr_4 <- with(
-#'   square_data,
-#'   simmr_load(
-#'     mixtures = mixtures,
-#'     source_names = source_names,
-#'     source_means = source_means,
-#'     source_sds = source_sds
-#'   )
-#' )
-#'
-#' # Get summary
-#' print(simmr_4)
-#'
-#' # Plot
-#' plot(simmr_4)
-#'
-#' # MCMC run - needs slightly longer
-#' simmr_4_out <- simmr_mcmc(simmr_4)
-#'
-#' # Print it
-#' print(simmr_4_out)
-#'
-#' # Summary
-#' summary(simmr_4_out)
-#' summary(simmr_4_out, type = "diagnostics")
-#' ans <- summary(simmr_4_out, type = c("quantiles", "statistics"))
-#'
-#' # Plot
-#' plot(simmr_4_out)
-#' plot(simmr_4_out, type = "boxplot")
-#' plot(simmr_4_out, type = "histogram")
-#' plot(simmr_4_out, type = "density")
-#' plot(simmr_4_out, type = "matrix") # Look at the massive correlations here
-#'
-#' #####################################################################################
-#'
 #' # Data set 5 - Multiple groups Geese data from Inger et al 2006
 #'
 #' # Do this in raw data format - Note that there's quite a few mixtures!
@@ -308,42 +267,21 @@ simmr_mcmc.simmr_input <- function(simmr_in,
   if (min(table(simmr_in$group)) > 1 & min(table(simmr_in$group)) < 4) warning("At least 1 group has less than 4 observations - either put each observation in an individual group or use informative prior information")
 
   # Set up the model string
-  model_string <- "
-model{
-  # Likelihood
-  for (j in 1:J) {
-    for (i in 1:N) {
-      y[i,j] ~ dnorm(inprod(p*q[,j], s_mean[,j]+c_mean[,j]) / inprod(p,q[,j]), 1/var_y[j])
-    }
-    var_y[j] <- inprod(pow(p*q[,j],2),pow(s_sd[,j],2)+pow(c_sd[,j],2))/pow(inprod(p,q[,j]),2)
-+ pow(sigma[j],2)
-  }
-
-  # Prior on sigma
-  for(j in 1:J) { sigma[j] ~ dgamma(0.001,sig_upp) }
-
-  # CLR prior on p
-  p[1:K] <- expf/sum(expf)
-  for(k in 1:K) {
-    expf[k] <- exp(f[k])
-    f[k] ~ dnorm(mu_f_mean[k],1/pow(sigma_f_sd[k],2))
-  }
-}
-"
+  jags_file <- system.file("jags_models", "mcmc.jags", package = "simmr")
 
   output <- vector("list", length = simmr_in$n_groups)
   names(output) <- levels(simmr_in$group)
 
   # Loop through all the groups
   for (i in 1:simmr_in$n_groups) {
-    if (simmr_in$n_groups > 1) cat(paste("\nRunning for group", levels(simmr_in$group)[i], "\n\n"))
+    if (simmr_in$n_groups > 1) message("\nRunning for group", levels(simmr_in$group)[i], "\n\n")
 
     curr_rows <- which(simmr_in$group_int == i)
     curr_mix <- simmr_in$mixtures[curr_rows, , drop = FALSE]
 
     # Determine if a single observation or not
     if (nrow(curr_mix) == 1) {
-      cat("Only 1 mixture value, performing a simmr solo run...\n")
+      message("Only 1 mixture value, performing a simmr solo run...\n")
       solo <- TRUE
     } else {
       solo <- FALSE
@@ -369,7 +307,7 @@ model{
     output[[i]] <- R2jags::jags(
       data = data,
       parameters.to.save = c("p", "sigma"),
-      model.file = textConnection(model_string),
+      model.file = jags_file,
       n.chains = mcmc_control$n.chain,
       n.iter = mcmc_control$iter,
       n.burnin = mcmc_control$burn,

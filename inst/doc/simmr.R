@@ -49,8 +49,8 @@ plot(simmr_in,
 ## ----results = 'hide'---------------------------------------------------------
 simmr_out <- simmr_mcmc(simmr_in)
 
-## ----results = 'hide'---------------------------------------------------------
-simmr_out_ffvb <- simmr_ffvb(simmr_in)
+## ---- eval = FALSE, results = 'hide'------------------------------------------
+#  simmr_out_ffvb <- simmr_ffvb(simmr_in)
 
 ## -----------------------------------------------------------------------------
 summary(simmr_out, type = "diagnostics")
@@ -86,80 +86,80 @@ compare_sources(simmr_out,
   )
 )
 
-## -----------------------------------------------------------------------------
-data(geese_data)
+## ---- eval = FALSE------------------------------------------------------------
+#  data(geese_data)
 
-## -----------------------------------------------------------------------------
-simmr_groups <- with(
-  geese_data,
-  simmr_load(
-    mixtures = mixtures,
-    source_names = source_names,
-    source_means = source_means,
-    source_sds = source_sds,
-    correction_means = correction_means,
-    correction_sds = correction_sds,
-    concentration_means = concentration_means,
-    group = groups
-  )
-)
+## ---- eval = FALSE------------------------------------------------------------
+#  simmr_groups <- with(
+#    geese_data,
+#    simmr_load(
+#      mixtures = mixtures,
+#      source_names = source_names,
+#      source_means = source_means,
+#      source_sds = source_sds,
+#      correction_means = correction_means,
+#      correction_sds = correction_sds,
+#      concentration_means = concentration_means,
+#      group = groups
+#    )
+#  )
 
-## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
-plot(simmr_groups,
-  group = 1:8,
-  xlab = expression(paste(delta^13, "C (\u2030)",
-    sep = ""
-  )),
-  ylab = expression(paste(delta^15, "N (\u2030)",
-    sep = ""
-  )),
-  title = "Isospace plot of Inger et al Geese data",
-  mix_name = "Geese"
-)
+## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+#  plot(simmr_groups,
+#    group = 1:8,
+#    xlab = expression(paste(delta^13, "C (\u2030)",
+#      sep = ""
+#    )),
+#    ylab = expression(paste(delta^15, "N (\u2030)",
+#      sep = ""
+#    )),
+#    title = "Isospace plot of Inger et al Geese data",
+#    mix_name = "Geese"
+#  )
 
-## ----results = 'hide'---------------------------------------------------------
-simmr_groups_out <- simmr_mcmc(simmr_groups)
+## ---- eval = FALSE, results = 'hide'------------------------------------------
+#  simmr_groups_out <- simmr_mcmc(simmr_groups)
 
-## ----results = 'hide'---------------------------------------------------------
-simmr_groups_out_ffvb <- simmr_ffvb(simmr_groups)
+## ----eval = FALSE, results = 'hide'-------------------------------------------
+#  simmr_groups_out_ffvb <- simmr_ffvb(simmr_groups)
 
-## ----reults = 'hide'----------------------------------------------------------
-summary(simmr_groups_out,
-  type = "quantiles",
-  group = 1
-)
-summary(simmr_groups_out,
-  type = "quantiles",
-  group = c(1, 3)
-)
-summary(simmr_groups_out,
-  type = c("quantiles", "statistics"),
-  group = c(1, 3)
-)
+## ---- eval = FALSE, reults = 'hide'-------------------------------------------
+#  summary(simmr_groups_out,
+#    type = "quantiles",
+#    group = 1
+#  )
+#  summary(simmr_groups_out,
+#    type = "quantiles",
+#    group = c(1, 3)
+#  )
+#  summary(simmr_groups_out,
+#    type = c("quantiles", "statistics"),
+#    group = c(1, 3)
+#  )
 
-## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
-plot(simmr_groups_out,
-  type = "boxplot",
-  group = 2,
-  title = "simmr output group 2"
-)
-plot(simmr_groups_out,
-  type = c("density", "matrix"),
-  group = 6,
-  title = "simmr output group 6"
-)
+## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+#  plot(simmr_groups_out,
+#    type = "boxplot",
+#    group = 2,
+#    title = "simmr output group 2"
+#  )
+#  plot(simmr_groups_out,
+#    type = c("density", "matrix"),
+#    group = 6,
+#    title = "simmr output group 6"
+#  )
 
-## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
-compare_groups(simmr_groups_out,
-  source = "Zostera",
-  groups = 1:2
-)
+## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+#  compare_groups(simmr_groups_out,
+#    source = "Zostera",
+#    groups = 1:2
+#  )
 
-## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
-compare_groups(simmr_groups_out,
-  source = "Zostera",
-  groups = 1:3
-)
+## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+#  compare_groups(simmr_groups_out,
+#    source = "Zostera",
+#    groups = 1:3
+#  )
 
 ## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
 simmr_out_combine <- combine_sources(simmr_out,
@@ -175,34 +175,34 @@ plot(simmr_out_combine,
   title = "simmr output: combined sources"
 )
 
-## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
-simmr_groups_out_combine <- combine_sources(simmr_groups_out,
-  to_combine = c(
-    "Zostera",
-    "U.lactuca",
-    "Enteromorpha"
-  ),
-  new_source_name = "U.Lac+Ent+Zos"
-)
-plot(simmr_groups_out_combine$input,
-  group = 1:8
-)
-plot(simmr_groups_out_combine,
-  type = "boxplot",
-  title = "simmr output: combined sources",
-  group = 8
-)
-plot(simmr_groups_out_combine,
-  type = "matrix",
-  title = "simmr output: combined sources",
-  group = 8
-)
-
-# And we can now compare sources across groups on this new data set
-compare_groups(simmr_groups_out_combine,
-  source = "U.Lac+Ent+Zos",
-  group = 1:3
-)
+## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+#  simmr_groups_out_combine <- combine_sources(simmr_groups_out,
+#    to_combine = c(
+#      "Zostera",
+#      "U.lactuca",
+#      "Enteromorpha"
+#    ),
+#    new_source_name = "U.Lac+Ent+Zos"
+#  )
+#  plot(simmr_groups_out_combine$input,
+#    group = 1:8
+#  )
+#  plot(simmr_groups_out_combine,
+#    type = "boxplot",
+#    title = "simmr output: combined sources",
+#    group = 8
+#  )
+#  plot(simmr_groups_out_combine,
+#    type = "matrix",
+#    title = "simmr output: combined sources",
+#    group = 8
+#  )
+#  
+#  # And we can now compare sources across groups on this new data set
+#  compare_groups(simmr_groups_out_combine,
+#    source = "U.Lac+Ent+Zos",
+#    group = 1:3
+#  )
 
 ## -----------------------------------------------------------------------------
 mix <- matrix(c(
@@ -234,43 +234,43 @@ plot(simmr_in_1D)
 ## -----------------------------------------------------------------------------
 simmr_run_1D <- simmr_mcmc(simmr_in_1D)
 
-## -----------------------------------------------------------------------------
-simmr_run_1D_ffvb <- simmr_ffvb(simmr_in_1D)
+## ---- eval = FALSE------------------------------------------------------------
+#  simmr_run_1D_ffvb <- simmr_ffvb(simmr_in_1D)
 
 ## -----------------------------------------------------------------------------
 plot(simmr_run_1D, type = "boxplot")
 
-## -----------------------------------------------------------------------------
-summary(simmr_out, type = "quantiles")
+## ---- eval = FALSE------------------------------------------------------------
+#  summary(simmr_out, type = "quantiles")
 
-## -----------------------------------------------------------------------------
-proportion_means <- c(0.4, 0.3, 0.2, 0.1)
+## ---- eval = FALSE------------------------------------------------------------
+#  proportion_means <- c(0.4, 0.3, 0.2, 0.1)
 
-## -----------------------------------------------------------------------------
-proportion_sds <- c(0.08, 0.02, 0.01, 0.02)
+## ---- eval = FALSE------------------------------------------------------------
+#  proportion_sds <- c(0.08, 0.02, 0.01, 0.02)
 
-## -----------------------------------------------------------------------------
-prior <- simmr_elicit(
-  4, proportion_means,
-  proportion_sds
-)
+## ---- eval = FALSE------------------------------------------------------------
+#  prior <- simmr_elicit(
+#    4, proportion_means,
+#    proportion_sds
+#  )
 
-## -----------------------------------------------------------------------------
-simmr_out_informative <- simmr_mcmc(simmr_in,
-  prior_control =
-    list(
-      means = prior$mean,
-      sd = prior$sd
-    )
-)
+## ---- eval = FALSE------------------------------------------------------------
+#  simmr_out_informative <- simmr_mcmc(simmr_in,
+#    prior_control =
+#      list(
+#        means = prior$mean,
+#        sd = prior$sd
+#      )
+#  )
 
-## -----------------------------------------------------------------------------
-summary(simmr_out_informative,
-  type = "quantiles"
-)
+## ---- eval = FALSE------------------------------------------------------------
+#  summary(simmr_out_informative,
+#    type = "quantiles"
+#  )
 
-## -----------------------------------------------------------------------------
-prior_viz(simmr_out_informative)
+## ---- eval = FALSE------------------------------------------------------------
+#  prior_viz(simmr_out_informative)
 
 ## -----------------------------------------------------------------------------
 simmr_tdf <- simmr_load(
@@ -321,13 +321,13 @@ plot(simmr_tdf_2)
 ## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(simmr_in) + xlim(-100, 100) + ylim(-100, 100)
 
-## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
-plot(simmr_groups_out,
-  type = "boxplot",
-  group = 2,
-  title = "simmr output group 2"
-) +
-  ylim(0, 0.5)
+## ---- eval = FALSE, fig.align = 'center',fig.width = 7,fig.height = 5---------
+#  plot(simmr_groups_out,
+#    type = "boxplot",
+#    group = 2,
+#    title = "simmr output group 2"
+#  ) +
+#    ylim(0, 0.5)
 
 ## -----------------------------------------------------------------------------
 # First extract the dietary proportions
