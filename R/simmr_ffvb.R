@@ -232,7 +232,7 @@ simmr_ffvb <- function(simmr_in,
                          P = 9,
                          beta_1 = 0.9,
                          beta_2 = 0.9,
-                         tau = 1000,
+                         tau = 100,
                          eps_0 = 0.1,
                          t_W = 50
                        )) {
@@ -273,11 +273,12 @@ simmr_ffvb <- function(simmr_in,
     if (nrow(curr_mix) == 1) {
       message("Only 1 mixture value, performing a simmr solo run...\n")
       solo <- TRUE
-      beta_prior = 100
+      beta_prior = 1
     } else {
       solo <- FALSE
-      beta_prior = 0.001
+      beta_prior = 1
     }
+  #solo <- FALSE
 
     n_tracers <- simmr_in$n_tracers
     n_sources <- simmr_in$n_sources
@@ -298,11 +299,11 @@ simmr_ffvb <- function(simmr_in,
       source_sds, y, ffvb_control$S,
       ffvb_control$P, ffvb_control$beta_1,
       ffvb_control$beta_2, ffvb_control$tau,
-      ffvb_control$eps_0, ffvb_control$t_W
+      ffvb_control$eps_0, ffvb_control$t_W, solo
     )
 
     thetares[(1 + n_output * (i - 1)):(n_output * i), ] <-
-      sim_thetacpp(n_output, lambdares[, i], K, n_tracers)
+      sim_thetacpp(n_output, lambdares[, i], K, n_tracers, solo)
 
     p <- t(apply(thetares[(1 + n_output * (i - 1)):(n_output * i), 1:K], 1, p_fun))
     sigma <- (1 / sqrt(thetares[

@@ -78,6 +78,12 @@ summary.simmr_output <-
   function(object, type = c("diagnostics", "quantiles", "statistics", "correlations"), group = 1, ...) {
     if (inherits(object, "simmr_output") == TRUE) {
       if (inherits(object, "mcmc") == TRUE) {
+        #simmr solo run determine if true or not
+        if (nrow(object$input$mixtures) == 1) {
+          solo <- TRUE
+        } else {
+          solo <- FALSE
+        }
         # Get the specified type
         type <- match.arg(type, several.ok = TRUE)
 
@@ -102,13 +108,22 @@ summary.simmr_output <-
             return(c(mean = mean(x), sd = stats::sd(x)))
           }))
           # coda:::summary.mcmc.list(object$output)$statistics[,1:2]
+          if(solo == TRUE){
+            out_cor[[i]] <- stats::cor(out_all[,1:(object$input$n_sources +1)])
+          }else if(solo == FALSE){
           out_cor[[i]] <- stats::cor(out_all)
+          }
 
           if ("diagnostics" %in% type) {
             # Print out gelman diagnostics of the output
             message("R-hat values - these values should all be close to 1.\n")
             message("If not, try a longer run of simmr_mcmc.\n")
+            if (solo == FALSE){
             print(round(out_bgr[[i]], 2))
+            } else if(solo == TRUE){
+              print(round(out_bgr[[i]][1:(length(object$input$source_names) +1)], 2))
+            }
+            
           }
 
           if ("quantiles" %in% type) {
@@ -188,3 +203,4 @@ summary.simmr_output <-
       (return(message("incorrect object passed to function")))
     }
   }
+

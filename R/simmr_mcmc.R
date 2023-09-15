@@ -13,9 +13,11 @@
 #' increased by a factor of 10.
 #'
 #' @param simmr_in An object created via the function \code{\link{simmr_load}}
-#' @param prior_control A list of values including arguments named \code{means}
+#' @param prior_control A list of values including arguments named: \code{means}
 #' and \code{sd} which represent the prior means and standard deviations of the
-#' dietary proportions in centralised log-ratio space. These can usually be
+#' dietary proportions in centralised log-ratio space; \code{shape} and 
+#' \code{rate} which represent the prior distribution on the residual standard
+#' deviation. These can usually be
 #' left at their default values unless you wish to include to include prior
 #' information, in which case you should use the function
 #' \code{\link{simmr_elicit}}.
@@ -238,7 +240,10 @@ simmr_mcmc <- function(simmr_in,
                          sd = rep(
                            1,
                            simmr_in$n_sources
-                         )
+                         ),
+                         sigma_shape = rep(3, simmr_in$n_tracers),
+                         sigma_rate = rep(3/50, simmr_in$n_tracers)
+
                        ),
                        mcmc_control = list(
                          iter = 10000,
@@ -252,7 +257,10 @@ simmr_mcmc <- function(simmr_in,
 simmr_mcmc.simmr_input <- function(simmr_in,
                                    prior_control = list(
                                      means = rep(0, simmr_in$n_sources),
-                                     sd = rep(1, simmr_in$n_sources)
+                                     sd = rep(1, simmr_in$n_sources),
+                                     sigma_shape = rep(3, simmr_in$n_tracers),
+                                     sigma_rate = rep(3/50, simmr_in$n_tracers)
+
                                    ),
                                    mcmc_control = list(
                                      iter = 10000,
@@ -300,7 +308,9 @@ simmr_mcmc.simmr_input <- function(simmr_in,
       K = n_sources,
       mu_f_mean = prior_control$means,
       sigma_f_sd = prior_control$sd,
-      sig_upp = ifelse(solo, 0.001, 1000)
+      sigma_shape = prior_control$sigma_shape,
+      sigma_rate = prior_control$sigma_rate,
+      not_solo = ifelse(solo, 0, 1)
     ))
 
     # Run in JAGS
