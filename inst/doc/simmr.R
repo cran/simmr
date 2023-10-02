@@ -37,10 +37,10 @@ plot(simmr_in)
 
 ## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(simmr_in,
-  xlab = expression(paste(delta^13, "C (\u2030)",
+  xlab = expression(paste(delta^13, "C (‰)",
     sep = ""
   )),
-  ylab = expression(paste(delta^15, "N (\u2030)",
+  ylab = expression(paste(delta^15, "N (‰)",
     sep = ""
   )),
   title = "Isospace plot of example data"
@@ -164,7 +164,7 @@ compare_sources(simmr_out,
 ## ----fig.align = 'center',fig.width = 7, fig.height = 5-----------------------
 simmr_out_combine <- combine_sources(simmr_out,
   to_combine = c(
-    "U.lactuca",
+    "Grass",
     "Enteromorpha"
   ),
   new_source_name = "U.lac+Ent"
@@ -271,52 +271,6 @@ plot(simmr_run_1D, type = "boxplot")
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  prior_viz(simmr_out_informative)
-
-## -----------------------------------------------------------------------------
-simmr_tdf <- simmr_load(
-  mixtures = mix,
-  source_names = s_names,
-  source_means = s_means,
-  source_sds = s_sds,
-  concentration_means = conc
-)
-
-## -----------------------------------------------------------------------------
-plot(simmr_tdf)
-
-## -----------------------------------------------------------------------------
-p_known <- matrix(
-  rep(
-    1 / simmr_tdf$n_sources,
-    simmr_tdf$n_sources
-  ),
-  ncol = simmr_tdf$n_sources,
-  nrow = simmr_tdf$n_obs,
-  byrow = TRUE
-)
-
-## ---- results = 'hide'--------------------------------------------------------
-simmr_tdf_out <- simmr_mcmc_tdf(simmr_tdf,
-  p = p_known
-)
-
-## -----------------------------------------------------------------------------
-summary(simmr_tdf_out, type = "diagnostics")
-
-## -----------------------------------------------------------------------------
-summary(simmr_tdf_out, type = "quantiles")
-
-## -----------------------------------------------------------------------------
-simmr_tdf_2 <- simmr_load(
-  mixtures = mix,
-  source_names = s_names,
-  source_means = s_means,
-  source_sds = s_sds,
-  correction_means = simmr_tdf_out$c_mean_est,
-  correction_sds = simmr_tdf_out$c_sd_est,
-  concentration_means = conc
-)
-plot(simmr_tdf_2)
 
 ## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(simmr_in) + xlim(-100, 100) + ylim(-100, 100)
