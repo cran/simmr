@@ -37,10 +37,10 @@ plot(simmr_in)
 
 ## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(simmr_in,
-  xlab = expression(paste(delta^13, "C (‰)",
+  xlab = expression(paste(delta^13, "C (per mille)",
     sep = ""
   )),
-  ylab = expression(paste(delta^15, "N (‰)",
+  ylab = expression(paste(delta^15, "N (per mille)",
     sep = ""
   )),
   title = "Isospace plot of example data"
@@ -107,10 +107,10 @@ compare_sources(simmr_out,
 ## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
 #  plot(simmr_groups,
 #    group = 1:8,
-#    xlab = expression(paste(delta^13, "C (\u2030)",
+#    xlab = expression(paste(delta^13, "C (per mille)",
 #      sep = ""
 #    )),
-#    ylab = expression(paste(delta^15, "N (\u2030)",
+#    ylab = expression(paste(delta^15, "N (per mille)",
 #      sep = ""
 #    )),
 #    title = "Isospace plot of Inger et al Geese data",

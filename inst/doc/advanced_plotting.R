@@ -29,8 +29,8 @@ simmr_out <- simmr_mcmc(simmr_in)
 
 ## -----------------------------------------------------------------------------
 p <- plot(simmr_in,
-  xlab = expression(paste(delta^13, "C (\u2030)", sep = "")),
-  ylab = expression(paste(delta^15, "N (\u2030)", sep = "")),
+  xlab = expression(paste(delta^13, "C (per mille)", sep = "")),
+  ylab = expression(paste(delta^15, "N (per mille)", sep = "")),
   title = "Isospace plot of Inger et al Geese data",
   mix_name = "Organism"
 )
