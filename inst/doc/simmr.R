@@ -49,7 +49,7 @@ plot(simmr_in,
 ## ----results = 'hide'---------------------------------------------------------
 simmr_out <- simmr_mcmc(simmr_in)
 
-## ---- eval = FALSE, results = 'hide'------------------------------------------
+## ----eval = FALSE, results = 'hide'-------------------------------------------
 #  simmr_out_ffvb <- simmr_ffvb(simmr_in)
 
 ## -----------------------------------------------------------------------------
@@ -86,10 +86,10 @@ compare_sources(simmr_out,
   )
 )
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  data(geese_data)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  simmr_groups <- with(
 #    geese_data,
 #    simmr_load(
@@ -104,7 +104,7 @@ compare_sources(simmr_out,
 #    )
 #  )
 
-## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+## ----eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5---------
 #  plot(simmr_groups,
 #    group = 1:8,
 #    xlab = expression(paste(delta^13, "C (per mille)",
@@ -117,13 +117,13 @@ compare_sources(simmr_out,
 #    mix_name = "Geese"
 #  )
 
-## ---- eval = FALSE, results = 'hide'------------------------------------------
+## ----eval = FALSE, results = 'hide'-------------------------------------------
 #  simmr_groups_out <- simmr_mcmc(simmr_groups)
 
 ## ----eval = FALSE, results = 'hide'-------------------------------------------
 #  simmr_groups_out_ffvb <- simmr_ffvb(simmr_groups)
 
-## ---- eval = FALSE, reults = 'hide'-------------------------------------------
+## ----eval = FALSE, reults = 'hide'--------------------------------------------
 #  summary(simmr_groups_out,
 #    type = "quantiles",
 #    group = 1
@@ -137,7 +137,7 @@ compare_sources(simmr_out,
 #    group = c(1, 3)
 #  )
 
-## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+## ----eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5---------
 #  plot(simmr_groups_out,
 #    type = "boxplot",
 #    group = 2,
@@ -149,13 +149,13 @@ compare_sources(simmr_out,
 #    title = "simmr output group 6"
 #  )
 
-## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+## ----eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5---------
 #  compare_groups(simmr_groups_out,
 #    source = "Zostera",
 #    groups = 1:2
 #  )
 
-## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+## ----eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5---------
 #  compare_groups(simmr_groups_out,
 #    source = "Zostera",
 #    groups = 1:3
@@ -167,7 +167,7 @@ simmr_out_combine <- combine_sources(simmr_out,
     "Grass",
     "Enteromorpha"
   ),
-  new_source_name = "U.lac+Ent"
+  new_source_name = "Grass+Ent"
 )
 plot(simmr_out_combine$input)
 plot(simmr_out_combine,
@@ -175,7 +175,7 @@ plot(simmr_out_combine,
   title = "simmr output: combined sources"
 )
 
-## ---- eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5--------
+## ----eval = FALSE, fig.align = 'center',fig.width = 7, fig.height = 5---------
 #  simmr_groups_out_combine <- combine_sources(simmr_groups_out,
 #    to_combine = c(
 #      "Zostera",
@@ -234,28 +234,28 @@ plot(simmr_in_1D)
 ## -----------------------------------------------------------------------------
 simmr_run_1D <- simmr_mcmc(simmr_in_1D)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  simmr_run_1D_ffvb <- simmr_ffvb(simmr_in_1D)
 
 ## -----------------------------------------------------------------------------
 plot(simmr_run_1D, type = "boxplot")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  summary(simmr_out, type = "quantiles")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  proportion_means <- c(0.4, 0.3, 0.2, 0.1)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  proportion_sds <- c(0.08, 0.02, 0.01, 0.02)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  prior <- simmr_elicit(
 #    4, proportion_means,
 #    proportion_sds
 #  )
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  simmr_out_informative <- simmr_mcmc(simmr_in,
 #    prior_control =
 #      list(
@@ -264,18 +264,18 @@ plot(simmr_run_1D, type = "boxplot")
 #      )
 #  )
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  summary(simmr_out_informative,
 #    type = "quantiles"
 #  )
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  prior_viz(simmr_out_informative)
 
 ## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(simmr_in) + xlim(-100, 100) + ylim(-100, 100)
 
-## ---- eval = FALSE, fig.align = 'center',fig.width = 7,fig.height = 5---------
+## ----eval = FALSE, fig.align = 'center',fig.width = 7,fig.height = 5----------
 #  plot(simmr_groups_out,
 #    type = "boxplot",
 #    group = 2,

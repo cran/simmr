@@ -4,11 +4,11 @@ knitr::opts_chunk$set(
 )
 library(simmr)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  install.packages("simmr")
 #  library(simmr)
 
-## ---- message=FALSE, results='hide'-------------------------------------------
+## ----message=FALSE, results='hide'--------------------------------------------
 # Load in example data
 data(geese_data_day1)
 # Load into simmr

@@ -1,13 +1,13 @@
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  install.packages("simmr")
 
-## ---- message=FALSE-----------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
 library(simmr)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  system.file("extdata", "geese_data.xls", package = "simmr")
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 if (!requireNamespace("readxl", quietly = TRUE)) {
   stop("readxl needed for this vignette to work. Please install it.",
     call. = FALSE
@@ -40,7 +40,7 @@ geese_simmr <- simmr_load(
 ## ----fig.align = 'center',fig.width = 7,fig.height = 5------------------------
 plot(geese_simmr, group = 1:8)
 
-## ---- results = 'hide', message = FALSE---------------------------------------
+## ----results = 'hide', message = FALSE----------------------------------------
 geese_simmr_out <- simmr_mcmc(geese_simmr)
 summary(geese_simmr_out,
   type = "diagnostics",
